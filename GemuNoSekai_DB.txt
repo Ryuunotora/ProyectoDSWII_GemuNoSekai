@@ -1,0 +1,118 @@
+-- Tabla juegos
+CREATE TABLE juegos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(300),
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL,
+    plataforma VARCHAR(50)
+);
+
+-- Ejemplo de datos para juegos
+INSERT INTO juegos (nombre, descripcion, precio, stock, plataforma) 
+VALUES 
+    ('The Legend of Zelda: Breath of the Wild', 'Juego de aventuras y acción.', 59.99, 100, 'Nintendo Switch'),
+    ('Super Mario Odyssey', 'Plataforma de aventuras.', 49.99, 150, 'Nintendo Switch'),
+    ('Cyberpunk 2077', 'Juego de rol y acción futurista.', 69.99, 75, 'PlayStation 4'),
+    ('Final Fantasy VII Remake', 'Recreación del clásico JRPG.', 69.99, 120, 'PlayStation 4'),
+    ('Animal Crossing: New Horizons', 'Simulador de vida en una isla desierta.', 49.99, 80, 'Nintendo Switch'),
+    ('The Last of Us Part II', 'Juego de acción y supervivencia.', 59.99, 90, 'PlayStation 4'),
+    ('Mario Kart 8 Deluxe', 'Juego de carreras con personajes de Nintendo.', 54.99, 110, 'Nintendo Switch'),
+    ('God of War', 'Aventura épica basada en la mitología griega.', 49.99, 70, 'PlayStation 4'),
+    ('Halo Infinite', 'Shooter en primera persona de la serie Halo.', 59.99, 100, 'Xbox Series X'),
+    ('Forza Horizon 5', 'Juego de carreras de mundo abierto.', 69.99, 120, 'Xbox Series X'),
+    ('Demon''s Souls', 'Remake del clásico juego de acción y rol.', 69.99, 80, 'PlayStation 5'),
+    ('Ratchet & Clank: Rift Apart', 'Aventura y plataformas con saltos dimensionales.', 59.99, 90, 'PlayStation 5');
+
+
+-- Tabla clientes
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(15)
+);
+
+-- Ejemplo de datos para clientes
+INSERT INTO clientes (nombre, apellido, email, telefono) 
+VALUES 
+    ('Juan', 'Pérez', 'juan.perez@example.com', '1234567890'),
+    ('María', 'García', 'maria.garcia@example.com', '9876543210');
+
+-- Tabla usuarios
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    cliente_id INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+-- Ejemplo de datos para usuarios
+INSERT INTO usuarios (username, password, cliente_id)
+VALUES 
+    ('admin', 'hashed_password_admin', 1),
+    ('user1', 'hashed_password_user1', 2);
+
+-- Tabla roles
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Ejemplo de datos para roles
+INSERT INTO roles (nombre)
+VALUES 
+    ('ADMIN'),
+    ('USER');
+
+-- Tabla usuarios_roles
+CREATE TABLE usuarios_roles (
+    usuario_id INT,
+    rol_id INT,
+    PRIMARY KEY (usuario_id, rol_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (rol_id) REFERENCES roles(id)
+);
+
+-- Asignación de roles a usuarios
+INSERT INTO usuarios_roles (usuario_id, rol_id)
+VALUES 
+    (1, 1), -- admin tiene rol ADMIN
+    (2, 2); -- user1 tiene rol USER
+
+-- Tabla pedidos
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    fecha DATE,
+    total DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+-- Ejemplo de datos para pedidos
+INSERT INTO pedidos (cliente_id, fecha, total)
+VALUES 
+    (1, '2024-06-20', 109.98), -- Pedido de Juan
+    (2, '2024-06-21', 59.99);   -- Pedido de María
+
+-- Tabla detalle_pedidos
+CREATE TABLE detalle_pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT,
+    juego_id INT,
+    cantidad INT,
+    precio DECIMAL(10,2),
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
+    FOREIGN KEY (juego_id) REFERENCES juegos(id)
+);
+
+-- Ejemplo de datos para detalle_pedidos
+INSERT INTO detalle_pedidos (pedido_id, juego_id, cantidad, precio)
+VALUES 
+    (1, 1, 1, 59.99),  -- Pedido de Juan: The Legend of Zelda: Breath of the Wild
+    (1, 2, 1, 49.99),  -- Pedido de Juan: Super Mario Odyssey
+    (2, 3, 1, 69.99);  -- Pedido de María: Cyberpunk 2077
+
+-- FIN DEL SCRIPT
