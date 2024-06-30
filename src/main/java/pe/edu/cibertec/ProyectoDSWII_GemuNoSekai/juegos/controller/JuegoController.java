@@ -46,8 +46,8 @@ public class JuegoController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Juego> ActualizarJuego(@PathVariable Long id, @RequestBody Juego newJuego){
-        Juego juegoUpdated = juegoService.ActualizarJuego(id, newJuego);
+    public ResponseEntity<Juego> ActualizarJuego(@PathVariable Long id, @RequestBody Juego juego){
+        Juego juegoUpdated = juegoService.ActualizarJuego(id, juego);
             if (juegoUpdated != null){
                 return new ResponseEntity<>(juegoUpdated,HttpStatus.OK);
             }

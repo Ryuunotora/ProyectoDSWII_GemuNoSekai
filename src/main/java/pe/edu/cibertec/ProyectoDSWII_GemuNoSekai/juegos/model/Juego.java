@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "juegos")
 @Getter
@@ -20,7 +22,7 @@ public class Juego {
     private String descripcion;
 
     @Column(name = "precio", nullable = false)
-    private Double precio;
+    private BigDecimal precio;
 
     @Column(name = "stock", nullable = false)
     private Integer stock;
