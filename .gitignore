@@ -1,0 +1,21 @@
+# Ignorar los archivos de configuración específicos de IntelliJ IDEA
+/.idea/
+/*.iml
+
+# Ignorar los archivos de configuración específicos de Eclipse
+/.project
+/.classpath
+/.settings/
+
+# Ignorar los archivos de construcción
+/target/
+
+# Ignorar los archivos de configuración específicos de Maven
+/.mvn/
+
+# Ignorar los archivos de configuración específicos de Spring Boot
+/src/main/resources/application.properties
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
