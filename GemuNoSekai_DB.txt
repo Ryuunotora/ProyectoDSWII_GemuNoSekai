@@ -1,3 +1,4 @@
+
 -- Tabla juegos
 CREATE TABLE juegos (
     idjuego INT AUTO_INCREMENT PRIMARY KEY,
@@ -77,12 +78,13 @@ CREATE TABLE usuario_rol (
     usuario_id INT,
     rol_id INT,
     PRIMARY KEY (usuario_id, rol_id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(idusuario),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(idusuario),
     FOREIGN KEY (rol_id) REFERENCES roles(idrol)
 );
 
+
 -- Asignación de roles a usuarios
-INSERT INTO usuario_rol (idusuario, idrol)
+INSERT INTO usuario_rol (usuario_id, rol_id)
 VALUES 
     (1, 1), -- admin tiene rol ADMIN
     (2, 2); -- user1 tiene rol USER
@@ -142,7 +144,7 @@ CREATE TABLE detalle_pedidos (
     FOREIGN KEY (juego_id) REFERENCES juegos(idjuego)
 );
 
---Datos para detalle_pedidos
+-- Datos para detalle_pedidos
 INSERT INTO detalle_pedidos (pedido_id, juego_id, cantidad, precio)
 VALUES 
     (1, 1, 1, 59.99),  -- Pedido de Juan: The Legend of Zelda: Breath of the Wild
