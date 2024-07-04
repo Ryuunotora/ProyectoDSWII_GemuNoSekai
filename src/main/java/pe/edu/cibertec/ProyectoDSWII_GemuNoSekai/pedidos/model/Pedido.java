@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.model.Cliente;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.empleado.model.Empleado;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,13 +21,18 @@ import java.util.List;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "idpedido")
+    private Long idPedido;
     @Column(name = "fecha", columnDefinition = "DATE")
     private LocalDate fecha;
     @Column(name = "total", precision = 10, scale = 2, nullable = false)
     private BigDecimal total;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Cliente.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @ManyToOne(targetEntity = Empleado.class)
+    @JoinColumn(name = "empleado_id")
+    private Empleado empleado;
 }

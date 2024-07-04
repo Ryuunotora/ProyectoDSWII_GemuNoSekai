@@ -42,7 +42,10 @@ public class PedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<Pedido> ActualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido){
         Pedido updatedPedido = pedidoService.ActualizarPedido(id,pedido);
-        return new ResponseEntity<>(updatedPedido, HttpStatus.ACCEPTED);
+        if (updatedPedido == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(updatedPedido, HttpStatus.OK);
     }
 
 }
