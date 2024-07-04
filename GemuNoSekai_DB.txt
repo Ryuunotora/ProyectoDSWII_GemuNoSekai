@@ -1,6 +1,6 @@
 -- Tabla juegos
 CREATE TABLE juegos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idjuego INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion VARCHAR(300),
     precio DECIMAL(10,2) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE juegos (
     plataforma VARCHAR(50)
 );
 
--- Ejemplo de datos para juegos
+-- datos para juegos
 INSERT INTO juegos (nombre, descripcion, precio, stock, plataforma) 
 VALUES 
     ('The Legend of Zelda: Breath of the Wild', 'Juego de aventuras y acción.', 59.99, 100, 'Nintendo Switch'),
@@ -27,92 +27,127 @@ VALUES
 
 -- Tabla clientes
 CREATE TABLE clientes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idcliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     telefono VARCHAR(15)
 );
 
--- Ejemplo de datos para clientes
-INSERT INTO clientes (nombre, apellido, email, telefono) 
-VALUES 
-    ('Juan', 'Pérez', 'juan.perez@example.com', '1234567890'),
-    ('María', 'García', 'maria.garcia@example.com', '9876543210');
+-- datos para clientes
+INSERT INTO clientes (idcliente, nombre, apellido, email, telefono) VALUES
+    (1, 'Juan', 'Pérez', 'juan.perez@example.com', '123456789'),
+    (2, 'Ana', 'García', 'ana.garcia@example.com', '987654321'),
+    (3, 'Luis', 'Martínez', 'luis.martinez@example.com', '456789123'),
+    (4, 'María', 'López', 'maria.lopez@example.com', '321654987'),
+    (5, 'Pedro', 'Hernández', 'pedro.hernandez@example.com', '654321789');
 
 -- Tabla usuarios
-CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    cliente_id INT,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+CREATE TABLE usuario (
+	idusuario INT auto_increment NOT NULL,
+	nomusuario varchar(100) NULL,
+	email varchar(200) NULL,
+	password varchar(300) NULL,
+	nombres varchar(100) NULL,
+	apellidos varchar(100) NULL,
+	activo BOOL NULL,
+	CONSTRAINT users_pk PRIMARY KEY (idusuario)
 );
 
--- Ejemplo de datos para usuarios
-INSERT INTO usuarios (username, password, cliente_id)
-VALUES 
-    ('admin', 'hashed_password_admin', 1),
-    ('user1', 'hashed_password_user1', 2);
+-- datos para usuarios
+INSERT INTO usuario (nomusuario, email, password, nombres, apellidos, activo) VALUES
+    ('mariagonzalez', 'maria.gonzalez@example.com', '$2y$10$Rg.wutkl7YB23oX1HPAUseeXShygLOeFVw5QSw1IH2ibD7gpZKWNO', 'María', 'Gonzalez', TRUE),
+    ('carlosmartinez', 'carlos.martinez@example.com', '$2y$10$/1VDlhvjDsi6.71VH/fgAOapCZD3DJJWP231am53t3DFFl7o9Ir3C', 'Carlos', 'Martinez', TRUE);
 
--- Tabla roles
+
+-- Tabla rol
 CREATE TABLE roles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idrol INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Ejemplo de datos para roles
+-- datos para rol
 INSERT INTO roles (nombre)
 VALUES 
     ('ADMIN'),
     ('USER');
 
--- Tabla usuarios_roles
-CREATE TABLE usuarios_roles (
+-- Tabla usuario_rol
+CREATE TABLE usuario_rol (
     usuario_id INT,
     rol_id INT,
     PRIMARY KEY (usuario_id, rol_id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (rol_id) REFERENCES roles(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(idusuario),
+    FOREIGN KEY (rol_id) REFERENCES roles(idrol)
 );
 
 -- Asignación de roles a usuarios
-INSERT INTO usuarios_roles (usuario_id, rol_id)
+INSERT INTO usuario_rol (idusuario, idrol)
 VALUES 
     (1, 1), -- admin tiene rol ADMIN
     (2, 2); -- user1 tiene rol USER
 
--- Tabla pedidos
-CREATE TABLE pedidos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente_id INT,
-    fecha DATE,
-    total DECIMAL(10,2),
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+
+-- Tabla empleado
+CREATE TABLE empleado (
+    idempleado INT AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    telefono VARCHAR(15) NULL,
+    puesto VARCHAR(100) NOT NULL,
+    fecha_contratacion DATE NOT NULL,
+    salario DECIMAL(10, 2) NOT NULL,
+    activo BOOL NOT NULL DEFAULT TRUE,
+    CONSTRAINT empleado_pk PRIMARY KEY (idempleado)
 );
 
--- Ejemplo de datos para pedidos
-INSERT INTO pedidos (cliente_id, fecha, total)
-VALUES 
-    (1, '2024-06-20', 109.98), -- Pedido de Juan
-    (2, '2024-06-21', 59.99);   -- Pedido de María
+-- Datos para la tabla empleado
+INSERT INTO empleado (nombre, apellido, email, telefono, puesto, fecha_contratacion, salario, activo) VALUES
+    ('Juan', 'Pérez', 'juan.perez@example.com', '555-1234', 'Gerente de Tienda', '2022-01-15', 3500.00, TRUE),
+    ('María', 'Gómez', 'maria.gomez@example.com', '555-5678', 'Vendedor', '2022-02-20', 2200.00, TRUE),
+    ('Carlos', 'Martínez', 'carlos.martinez@example.com', '555-8765', 'Cajero', '2022-03-10', 1800.00, TRUE),
+    ('Laura', 'Fernández', 'laura.fernandez@example.com', '555-4321', 'Encargado de Inventario', '2022-04-25', 2500.00, TRUE),
+    ('Pedro', 'Álvarez', 'pedro.alvarez@example.com', '555-6789', 'Asistente de Ventas', '2022-05-30', 2000.00, TRUE);
+
+
+   -- Tabla pedidos con relación a empleados
+CREATE TABLE pedidos (
+    idpedido INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    empleado_id INT, 
+    fecha DATE,
+    total DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES clientes(idcliente),
+    FOREIGN KEY (empleado_id) REFERENCES empleado(idempleado)
+);
+
+
+-- Datos para pedidos
+INSERT INTO pedidos (cliente_id , empleado_id, fecha, total) VALUES
+    (1, 2, '2024-07-01', 149.97),
+    (2, 3, '2024-07-02', 229.98),
+    (3, 1, '2024-07-03', 89.99),
+    (4, 2, '2024-07-04', 299.95),
+    (5, 3, '2024-07-05', 119.96);
 
 -- Tabla detalle_pedidos
 CREATE TABLE detalle_pedidos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    iddetalle INT AUTO_INCREMENT PRIMARY KEY,
     pedido_id INT,
     juego_id INT,
     cantidad INT,
     precio DECIMAL(10,2),
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
-    FOREIGN KEY (juego_id) REFERENCES juegos(id)
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(idpedido),
+    FOREIGN KEY (juego_id) REFERENCES juegos(idjuego)
 );
 
--- Ejemplo de datos para detalle_pedidos
+--Datos para detalle_pedidos
 INSERT INTO detalle_pedidos (pedido_id, juego_id, cantidad, precio)
 VALUES 
     (1, 1, 1, 59.99),  -- Pedido de Juan: The Legend of Zelda: Breath of the Wild
     (1, 2, 1, 49.99),  -- Pedido de Juan: Super Mario Odyssey
     (2, 3, 1, 69.99);  -- Pedido de María: Cyberpunk 2077
 
--- FIN DEL SCRIPT
+
+--FIN DEL SCRIPT--
