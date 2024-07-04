@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface JuegoService {
     List<Juego> ObtenerJuegos();
-    Optional<Juego>  ObtenerJuego(Long id);
-    Juego CrearJuego(Juego juego);
-    Juego ActualizarJuego(Long id, Juego juegoUpdated);
+    Optional<Juego> ObtenerJuegoPorId(Long id);
+    Juego GuardarJuego(Juego juego);
+    Juego ActualizarJuego(Long id, Juego juego);
 }

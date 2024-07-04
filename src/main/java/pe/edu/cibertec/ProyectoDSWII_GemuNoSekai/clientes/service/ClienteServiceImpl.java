@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.model.Cliente;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.repository.ClienteRepository;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.pedidos.model.Pedido;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,31 +14,34 @@ import java.util.Optional;
 public class ClienteServiceImpl implements ClienteService{
     private ClienteRepository clienteRepository;
 
+
     @Override
     public List<Cliente> ObtenerClientes() {
         return clienteRepository.findAll();
     }
 
     @Override
-    public Optional<Cliente> ObtenerCliente(int id) {
-        return clienteRepository.findById(id);
+    public Optional<Cliente> ObtenerClientePorId(Long id) {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        if (!cliente.isPresent()){
+            return Optional.empty();
+        }
+        return cliente;
     }
 
     @Override
-    public Cliente CrearCliente(Cliente cliente) {
+    public Cliente GuardarCliente(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
     @Override
-    public Cliente ActualizarCliente(int id, Cliente clienteUpdated) {
-        Optional<Cliente> clienteOptional = clienteRepository.findById(id);
-            Cliente newCliente = clienteOptional.get();
-            newCliente.setNombre(clienteUpdated.getNombre());
-            newCliente.setApellido(clienteUpdated.getApellido());
-            newCliente.setTelefono(clienteUpdated.getTelefono());
-            newCliente.setEmail(clienteUpdated.getEmail());
-            return clienteRepository.save(newCliente);
-
-
+    public Cliente ActualizarCliente(Long id, Cliente cliente) {
+        Cliente updatedCliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró cliente con el id: " + id));
+        updatedCliente.setNombre(cliente.getNombre());
+        updatedCliente.setApellido(cliente.getApellido());
+        updatedCliente.setEmail(cliente.getEmail());
+        updatedCliente.setTelefono(cliente.getTelefono());
+        return clienteRepository.save(updatedCliente);
     }
 }

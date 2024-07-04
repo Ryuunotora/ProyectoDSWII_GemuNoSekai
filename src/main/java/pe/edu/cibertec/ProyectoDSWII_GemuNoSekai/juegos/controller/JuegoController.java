@@ -13,47 +13,35 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/v1/juego")
+@RequestMapping("api/v1/juegos")
 public class JuegoController {
     private JuegoService juegoService;
 
     @GetMapping
-    public ResponseEntity<List<Juego>> ListarJuegos(){
+    public ResponseEntity<List<Juego>> ObtenerJuegos() {
         List<Juego> juegos = juegoService.ObtenerJuegos();
-        if (!juegos.isEmpty()){
-            return new ResponseEntity<>(juegos, HttpStatus.OK);
+        if (juegos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        else {
-            return new ResponseEntity<>(juegos, HttpStatus.NO_CONTENT);
-        }
+        return new ResponseEntity<>(juegos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Juego> ObtenerJuegoPorId(@PathVariable Long id){
-        Juego juego = juegoService.ObtenerJuego(id).get();
+    public ResponseEntity<Juego> ObtenerJuegoPorId(@PathVariable Long id) {
+        Juego juego = juegoService.ObtenerJuegoPorId(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró juego con id: " + id));
         return new ResponseEntity<>(juego, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Juego> CrearJuego(@RequestBody Juego juego){
-        Juego newJuego = juegoService.CrearJuego(juego);
-        if (newJuego != null){
-            return new ResponseEntity<>(newJuego,HttpStatus.CREATED);
-        }
-        else {
-            return new ResponseEntity<>(newJuego,HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping
+    public ResponseEntity<Juego> GuardarJuego(@RequestBody Juego juego) {
+        Juego newJuego = juegoService.GuardarJuego(juego);
+        return new ResponseEntity<>(newJuego, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Juego> ActualizarJuego(@PathVariable Long id, @RequestBody Juego juego){
-        Juego juegoUpdated = juegoService.ActualizarJuego(id, juego);
-            if (juegoUpdated != null){
-                return new ResponseEntity<>(juegoUpdated,HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(juegoUpdated,HttpStatus.BAD_REQUEST);
-            }
+    @PutMapping("/{id}")
+    public ResponseEntity<Juego> ActualizarJuego(@PathVariable Long id, @RequestBody Juego juego) {
+        Juego updatedJuego = juegoService.ActualizarJuego(id, juego);
+        return new ResponseEntity<>(updatedJuego, HttpStatus.ACCEPTED);
     }
-
 }

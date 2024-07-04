@@ -8,7 +8,7 @@ import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.model.Cliente;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.service.ClienteService;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @AllArgsConstructor
 @RestController
@@ -16,47 +16,33 @@ import java.util.Optional;
 public class ClienteController {
     private ClienteService clienteService;
 
-    @GetMapping
-    public ResponseEntity<List<Cliente>> ListarClientes() {
-        List<Cliente> clientes = clienteService.ObtenerClientes();
-        if (clientes != null){
+        @GetMapping
+        public ResponseEntity<List<Cliente>> ObtenerClientes() {
+            List<Cliente> clientes = clienteService.ObtenerClientes();
+            if (clientes.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
             return new ResponseEntity<>(clientes, HttpStatus.OK);
         }
-        else {
-            return new ResponseEntity<>(clientes, HttpStatus.NO_CONTENT);
-        }
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> ListarClientePorId(@PathVariable int id) {
-        Optional<Cliente> clienteOptional = clienteService.ObtenerCliente(id);
-        if (clienteOptional.isPresent()){
-            Cliente cliente = clienteOptional.get();
+        @GetMapping("/{id}")
+        public ResponseEntity<Cliente> ObtenerClientePorId(@PathVariable Long id) {
+            Cliente cliente = clienteService.ObtenerClientePorId(id)
+                    .orElseThrow(() -> new RuntimeException("No se encontró cliente con id: " + id));
             return new ResponseEntity<>(cliente, HttpStatus.OK);
         }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
-    @PostMapping("/add")
-    public ResponseEntity<Cliente> CrearCliente(@RequestBody Cliente cliente) {
-        Cliente newCliente = clienteService.CrearCliente(cliente);
-        if (newCliente != null){
-            return new ResponseEntity<>(cliente, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Cliente> ActualizarCliente(@PathVariable int id, @RequestBody Cliente clienteUpdated) {
-        Cliente newCliente = clienteService.ActualizarCliente(id,clienteUpdated);
-        if (newCliente != null) {
+        @PostMapping
+        public ResponseEntity<Cliente> GuardarCliente(@RequestBody Cliente cliente) {
+            Cliente newCliente = clienteService.GuardarCliente(cliente);
             return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(newCliente, HttpStatus.BAD_REQUEST);
         }
-    }
+
+        @PutMapping("/{id}")
+        public ResponseEntity<Cliente> ActualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+            Cliente updatedCliente = clienteService.ActualizarCliente(id, cliente);
+            return new ResponseEntity<>(updatedCliente, HttpStatus.ACCEPTED);
+        }
 
 }
+

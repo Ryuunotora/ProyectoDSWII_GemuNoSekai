@@ -1,13 +1,17 @@
 package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.juegos.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "juegos")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Juego {

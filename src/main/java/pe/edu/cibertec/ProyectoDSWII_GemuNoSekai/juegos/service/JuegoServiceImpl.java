@@ -19,28 +19,24 @@ public class JuegoServiceImpl implements JuegoService{
     }
 
     @Override
-    public Optional<Juego> ObtenerJuego(Long id) {
+    public Optional<Juego> ObtenerJuegoPorId(Long id) {
         return juegoRepository.findById(id);
     }
 
     @Override
-    public Juego CrearJuego(Juego juego) {
+    public Juego GuardarJuego(Juego juego) {
         return juegoRepository.save(juego);
     }
 
     @Override
-    public Juego ActualizarJuego(Long id, Juego juegoUpdated) {
-        Optional<Juego> juegoOptional = juegoRepository.findById(id);
-        if (juegoOptional.isPresent()) {
-            Juego newJuego = juegoOptional.get();
-            newJuego.setNombre(juegoUpdated.getNombre());
-            newJuego.setDescripcion(juegoUpdated.getDescripcion());
-            newJuego.setPrecio(juegoUpdated.getPrecio());
-            newJuego.setStock(juegoUpdated.getStock());
-            newJuego.setPlataforma(juegoUpdated.getPlataforma());
-            return juegoRepository.save(newJuego);
-        }
-        else
-            return null;
+    public Juego ActualizarJuego(Long id, Juego juego) {
+        Juego updatedJuego = juegoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró juego con el id: " + id));
+        updatedJuego.setNombre(juego.getNombre());
+        updatedJuego.setDescripcion(juego.getDescripcion());
+        updatedJuego.setPrecio(juego.getPrecio());
+        updatedJuego.setStock(juego.getStock());
+        updatedJuego.setPlataforma(juego.getPlataforma());
+        return juegoRepository.save(updatedJuego);
     }
 }

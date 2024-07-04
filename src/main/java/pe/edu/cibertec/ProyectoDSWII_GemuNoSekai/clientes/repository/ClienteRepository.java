@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.model.Cliente;
 
 @Repository
-public interface ClienteRepository  extends JpaRepository<Cliente, Integer> {
+public interface ClienteRepository  extends JpaRepository<Cliente, Long> {
 
 }

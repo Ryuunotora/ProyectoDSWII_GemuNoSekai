@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface ClienteService {
     List<Cliente> ObtenerClientes();
-    Optional<Cliente> ObtenerCliente(int id);
-    Cliente CrearCliente(Cliente cliente);
-    Cliente ActualizarCliente(int id, Cliente cliente);
+    Optional<Cliente> ObtenerClientePorId(Long id);
+    Cliente GuardarCliente(Cliente cliente);
+    Cliente ActualizarCliente(Long id, Cliente cliente);
     
 }
