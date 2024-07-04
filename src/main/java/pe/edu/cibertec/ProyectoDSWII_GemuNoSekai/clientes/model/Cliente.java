@@ -11,14 +11,14 @@ import lombok.Setter;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "nombre", nullable = false, length = 100)
+    private int idcliente;
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name = "apellido", nullable = false, length = 100)
+    @Column(name = "apellido")
     private String apellido;
-    @Column(name = "email", nullable = false, unique = true, length = 100)
+    @Column(name = "email")
     private String email;
-    @Column(name = "telefono", length = 15)
+    @Column(name = "telefono")
     private String telefono;
 
 }

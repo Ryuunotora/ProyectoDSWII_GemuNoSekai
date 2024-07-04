@@ -13,20 +13,20 @@ import java.math.BigDecimal;
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idjuego;
 
-    @Column(name = "nombre", nullable = false, length = 100)
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "descripcion", length = 300)
+    @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "precio", nullable = false)
+    @Column(name = "precio")
     private BigDecimal precio;
 
-    @Column(name = "stock", nullable = false)
+    @Column(name = "stock")
     private Integer stock;
 
-    @Column(name = "plataforma", length = 50)
+    @Column(name = "plataforma")
     private String plataforma;
 }
