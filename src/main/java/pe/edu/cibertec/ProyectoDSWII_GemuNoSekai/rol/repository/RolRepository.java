@@ -1,8 +1,8 @@
-package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.roles.repository;
+package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.rol.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.roles.model.Rol;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.rol.model.Rol;
 
 
 @Repository

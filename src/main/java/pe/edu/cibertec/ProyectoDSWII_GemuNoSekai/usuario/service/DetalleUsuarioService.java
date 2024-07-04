@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.roles.model.Rol;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.rol.model.Rol;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.usuario.model.Usuario;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.usuario.repository.UsuarioRepository;
 

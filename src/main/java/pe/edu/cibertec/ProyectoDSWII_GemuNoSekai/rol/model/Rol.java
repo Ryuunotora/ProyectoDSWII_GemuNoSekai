@@ -1,4 +1,4 @@
-package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.roles.model;
+package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.rol.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

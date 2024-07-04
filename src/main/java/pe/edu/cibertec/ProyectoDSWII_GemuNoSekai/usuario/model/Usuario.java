@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.roles.model.Rol;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.rol.model.Rol;
 
 import java.util.Set;
 
