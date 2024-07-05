@@ -1,7 +1,6 @@
 package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.pedidos.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.pedidos.model.Pedido;
@@ -12,40 +11,31 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/v1/pedidos")
+@RequestMapping("/api/v1/pedidos")
 public class PedidoController {
-    private PedidoService pedidoService;
+    private final PedidoService pedidoService;
 
     @GetMapping
-    public ResponseEntity<List<Pedido>> ObtenerPedidos(){
-        List<Pedido>pedidos= pedidoService.ObtenerPedidos();
-        if (pedidos.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(pedidos,HttpStatus.OK);
+    public ResponseEntity<List<Pedido>> obtenerPedidos() {
+        return ResponseEntity.ok(pedidoService.ObtenerPedidos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> ObtenerPedidoPorId(@PathVariable Long id){
-        Pedido pedido = pedidoService.ObtenerPedidoPorId(id).orElseThrow(
-                () -> new RuntimeException("No se encontró pedido con id: ")
-        );
-        return new ResponseEntity<>(pedido, HttpStatus.OK);
+    public ResponseEntity<Optional<Pedido>> obtenerPedidoPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(pedidoService.ObtenerPedidoPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Pedido> GuardarPedido(@RequestBody Pedido pedido){
-        Pedido newPedido = pedidoService.GuardarPedido(pedido);
-        return new ResponseEntity<>(newPedido, HttpStatus.CREATED);
+    public ResponseEntity<Pedido> guardarPedido(@RequestBody Pedido pedido) {
+        return ResponseEntity.ok(pedidoService.GuardarPedido(pedido));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pedido> ActualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido){
-        Pedido updatedPedido = pedidoService.ActualizarPedido(id,pedido);
-        if (updatedPedido == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
+        if (!id.equals(pedido.getIdPedido())) {
+            return ResponseEntity.badRequest().body("ID mismatch");
         }
-        return new ResponseEntity<>(updatedPedido, HttpStatus.OK);
+        Pedido updatedPedido = pedidoService.ActualizarPedido(id, pedido);
+        return ResponseEntity.ok(updatedPedido);
     }
-
 }
