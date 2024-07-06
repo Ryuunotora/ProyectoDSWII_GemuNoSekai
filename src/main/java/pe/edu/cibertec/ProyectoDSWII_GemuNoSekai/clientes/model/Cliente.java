@@ -29,6 +29,4 @@ public class Cliente {
     @Column(name = "telefono", length = 15)
     private String telefono;
 
-    @OneToMany(targetEntity = Pedido.class, fetch = FetchType.EAGER)
-    private List<Pedido> pedidos;
 }

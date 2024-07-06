@@ -52,8 +52,10 @@ public class PedidoServiceImpl implements PedidoService{
                 .orElseThrow(() -> new RuntimeException("No se encontró pedido con el id: " + id));
         updatedPedido.setFecha(pedido.getFecha());
         updatedPedido.setTotal(pedido.getTotal());
+        /*CLIENTE*/
         Cliente cliente = clienteRepository.findById(pedido.getCliente().getIdCliente())
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con el id: " + pedido.getCliente().getIdCliente()));
+        /*EMPLEADO*/
         Empleado empleado = empleadoRepository.findById(pedido.getEmpleado().getIdempleado())
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado con el id: " + pedido.getEmpleado().getIdempleado()));
 

@@ -28,11 +28,11 @@ public class Pedido {
     @Column(name = "total", precision = 10, scale = 2, nullable = false)
     private BigDecimal total;
 
-    @ManyToOne(targetEntity = Cliente.class, cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @ManyToOne(targetEntity = Empleado.class)
+    @ManyToOne
     @JoinColumn(name = "empleado_id")
     private Empleado empleado;
 }
