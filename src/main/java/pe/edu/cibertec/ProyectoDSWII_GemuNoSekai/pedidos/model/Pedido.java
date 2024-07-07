@@ -1,12 +1,15 @@
 package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.pedidos.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.clientes.model.Cliente;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.detalle_pedidos.model.DetallePedido;
 import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.empleado.model.Empleado;
+import pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.juegos.model.Juego;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,4 +38,9 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "empleado_id")
     private Empleado empleado;
+
+    @OneToMany(targetEntity= DetallePedido.class, mappedBy = "pedido", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
+    private List<DetallePedido> detallesPedidos;
+
 }

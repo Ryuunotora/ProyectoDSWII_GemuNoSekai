@@ -1,5 +1,6 @@
 package pe.edu.cibertec.ProyectoDSWII_GemuNoSekai.detalle_pedidos.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class DetallePedido {
 
     @ManyToOne(targetEntity = Pedido.class)
     @JoinColumn(name = "pedido_id")
+    @JsonBackReference
     private Pedido pedido;
 
     @ManyToOne(targetEntity = Juego.class)
@@ -36,6 +38,4 @@ public class DetallePedido {
     @Column(name = "precio", precision = 10, scale = 2, nullable = false)
     private BigDecimal precio;
 
-    @Column(name = "precio_total", precision = 10, scale = 2, nullable = false)
-    private BigDecimal precioTotal;
 }

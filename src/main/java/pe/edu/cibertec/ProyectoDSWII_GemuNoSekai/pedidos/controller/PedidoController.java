@@ -30,12 +30,5 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.GuardarPedido(pedido));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
-        if (!id.equals(pedido.getIdPedido())) {
-            return ResponseEntity.badRequest().body("ID mismatch");
-        }
-        Pedido updatedPedido = pedidoService.ActualizarPedido(id, pedido);
-        return ResponseEntity.ok(updatedPedido);
-    }
+
 }

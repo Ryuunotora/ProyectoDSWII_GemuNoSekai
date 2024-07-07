@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/v1/detalle_pedidos")
+@RequestMapping("api/v1/detalle_pedidos")
 public class DetallePedidoController {
     private final DetallePedidoService detallePedidoService;
 
@@ -35,13 +35,4 @@ public class DetallePedidoController {
         return ResponseEntity.ok(detallePedidoService.guardarDetallePedido(detallePedido));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarDetallePedido(@PathVariable Long id, @RequestBody DetallePedido detallePedido) {
-        if (!id.equals(detallePedido.getIdDetalle())) {
-            return ResponseEntity.badRequest().body("ID mismatch");
-        }
-        DetallePedido updatedDetallePedido = detallePedidoService.actualizarDetallePedido(id, detallePedido);
-        return ResponseEntity.ok(updatedDetallePedido);
-
-    }
 }
