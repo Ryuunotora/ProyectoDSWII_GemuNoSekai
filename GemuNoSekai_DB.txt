@@ -86,8 +86,8 @@ CREATE TABLE usuario_rol (
 -- Asignación de roles a usuarios
 INSERT INTO usuario_rol (usuario_id, rol_id)
 VALUES 
-    (1, 1), -- admin tiene rol ADMIN
-    (2, 2); -- user1 tiene rol USER
+    (1, 1), 
+    (2, 2); 
 
 
 -- Tabla empleado
@@ -113,7 +113,7 @@ INSERT INTO empleado (nombre, apellido, email, telefono, puesto, fecha_contratac
     ('Pedro', 'Álvarez', 'pedro.alvarez@example.com', '555-6789', 'Asistente de Ventas', '2022-05-30', 2000.00, TRUE);
 
 
-   -- Tabla pedidos con relación a empleados
+   -- Tabla pedidos
 CREATE TABLE pedidos (
     idpedido INT AUTO_INCREMENT PRIMARY KEY,
     cliente_id INT,
